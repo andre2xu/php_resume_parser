@@ -1,0 +1,6 @@
+{
+    "require": {
+        "gotenberg/gotenberg-php": "1.1.8",
+        "smalot/pdfparser": "2.10.0"
+    }
+}

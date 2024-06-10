@@ -1,0 +1,18 @@
+version: '1'
+services:
+  server:
+    image: "php:apache"
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 5001:80
+      - 5002:443
+  composer:
+    image: "composer"
+    volumes:
+      - ./:/app
+    command: composer update
+  gotenberg:
+    image: "gotenberg/gotenberg:8"
+    ports:
+      - 3000:3000

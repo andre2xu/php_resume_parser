@@ -5,9 +5,9 @@
 
 
 
-    class LoginController {
-        public function login(HttpFoundation\Request $request): HttpFoundation\Response {
-            return new HttpFoundation\Response('Login page');
+    class LoginController extends BaseController {
+        public function login(): HttpFoundation\Response {
+            return $this->generateTemplateResponse('login.html');
         }
     }
 ?>

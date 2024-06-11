@@ -29,14 +29,14 @@
 
     $matcher = new Routing\Matcher\UrlMatcher($routes, $context);
 
-    $controllerResolver = new HttpKernel\Controller\ControllerResolver();
-    $argumentResolver = new HttpKernel\Controller\ArgumentResolver();
+    $controller_resolver = new HttpKernel\Controller\ControllerResolver();
+    $argument_resolver = new HttpKernel\Controller\ArgumentResolver();
 
     try {
         $request->attributes->add($matcher->match($request->getPathInfo()));
 
-        $controller = $controllerResolver->getController($request);
-        $arguments = $argumentResolver->getArguments($request, $controller);
+        $controller = $controller_resolver->getController($request);
+        $arguments = $argument_resolver->getArguments($request, $controller);
 
         $response = call_user_func_array($controller, $arguments);
     } 

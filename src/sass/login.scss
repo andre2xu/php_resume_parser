@@ -5,6 +5,12 @@ body {
     height: 100vh;
 }
 
+#login-form-alert {
+    position: absolute;
+    top: 20px;
+    visibility: hidden;
+}
+
 @mixin loginFormContentSize($formWidth, $formMaxWidth, $formTopPadding, $formHorizontalPadding, $formBottomPadding, $headingFontSize, $headingBottomMargin, $inputFontSize, $buttonFontSize, $buttonTopMargin) {
     width: $formWidth;
     max-width: $formMaxWidth;

@@ -11,7 +11,7 @@ body {
     visibility: hidden;
 }
 
-@mixin loginFormContentSize($formWidth, $formMaxWidth, $formTopPadding, $formHorizontalPadding, $formBottomPadding, $headingFontSize, $headingBottomMargin, $inputFontSize, $buttonFontSize, $buttonTopMargin) {
+@mixin loginFormContentSize($formWidth, $formMaxWidth, $formTopPadding, $formHorizontalPadding, $formBottomPadding, $headingFontSize, $headingBottomMargin, $inputFontSize, $linkFontSize, $buttonFontSize, $buttonTopMargin) {
     width: $formWidth;
     max-width: $formMaxWidth;
     padding: $formTopPadding $formHorizontalPadding $formBottomPadding;
@@ -23,6 +23,10 @@ body {
 
     input {
         font-size: $inputFontSize;
+    }
+
+    #signup-page-link {
+        font-size: $linkFontSize;
     }
 
     button {
@@ -42,22 +46,26 @@ body {
     }
 
     @media screen and (min-width: 1001px) {
-        @include loginFormContentSize(40%, 400px, 40px, 40px, 80px, 40px, 15%, 18px, 18px, 20%);
+        @include loginFormContentSize(40%, 400px, 40px, 40px, 80px, 40px, 15%, 18px, 15px, 18px, 20%);
     }
 
     @media screen and (max-width: 1000px) {
-        @include loginFormContentSize(50%, 500px, 4%, 4%, 6%, 40px, 15%, 18px, 18px, 20%);
+        @include loginFormContentSize(50%, 500px, 4%, 4%, 6%, 40px, 15%, 18px, 15px, 18px, 20%);
     }
 
     @media screen and (max-width: 750px) {
-        @include loginFormContentSize(60%, 600px, 5%, 5%, 8%, 40px, 18%, 18px, 18px, 25%);
+        @include loginFormContentSize(60%, 600px, 5%, 5%, 8%, 40px, 18%, 18px, 15px, 18px, 25%);
     }
 
     @media screen and (max-width: 450px) {
-        @include loginFormContentSize(70%, 700px, 5%, 5%, 8%, 30px, 20%, 16px, 16px, 30%);
+        @include loginFormContentSize(70%, 700px, 5%, 5%, 8%, 30px, 20%, 16px, 14px, 16px, 30%);
     }
 
     @media screen and (max-width: 300px) {
-        @include loginFormContentSize(80%, 800px, 5%, 5%, 8%, 25px, 20%, 14px, 14px, 30%);
+        @include loginFormContentSize(80%, 800px, 5%, 5%, 8%, 25px, 20%, 14px, 14px, 14px, 30%);
+    }
+
+    #signup-page-link {
+        margin-top: 6%;
     }
 }

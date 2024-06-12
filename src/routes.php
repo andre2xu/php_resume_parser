@@ -17,5 +17,9 @@
         '_controller' => 'Controllers\LoginController::login'
     )));
 
+    $routes->add('signup', new Routing\Route('/signup', array(
+        '_controller' => 'Controllers\LoginController::signup'
+    )));
+
     return $routes;
 ?>

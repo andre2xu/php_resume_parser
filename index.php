@@ -21,6 +21,24 @@
 
 
 
+    // create SQL tables
+    try {
+        Services\db()->exec('
+            DROP TABLE IF EXISTS users;
+            CREATE TABLE users (
+                uid int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                email varchar(255) NOT NULL,
+                password varchar(25) NOT NULL
+            );
+        ');
+    }
+    catch (\PDOException $error) {
+        die('Failed to create database tables: ' . $error);
+    }
+
+
+
+    // handle routing
     $routes = include __DIR__ . '/src/routes.php';
 
     $request = Request::createFromGlobals();

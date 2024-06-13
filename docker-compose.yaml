@@ -1,7 +1,7 @@
 version: '1'
 services:
   server:
-    image: "php:apache"
+    build: ./ # see Dockerfile
     volumes:
       - ./:/var/www/html
     ports:

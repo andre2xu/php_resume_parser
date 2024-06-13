@@ -7,6 +7,7 @@ services:
     ports:
       - 5001:80
       - 5002:443
+    # RUN THE FOLLOWING COMMAND W/ DOCKER EXEC AFTER CONTAINER IS UP: `php init.php`
   composer:
     image: "composer"
     volumes:

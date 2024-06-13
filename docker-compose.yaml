@@ -16,3 +16,13 @@ services:
     image: "gotenberg/gotenberg:8"
     ports:
       - 3000:3000
+  db:
+    image: "mysql"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: prp
+      MYSQL_USER: prp
+      MYSQL_PASSWORD: prp
+      MYSQL_ROOT_PASSWORD: root

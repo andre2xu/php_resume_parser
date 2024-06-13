@@ -11,7 +11,9 @@
     <title>Login</title>
 </head>
 <body>
-    <div id="login-form-alert" class="alert alert-danger" role="alert">Error Message</div>
+    {% if message %}
+        <div id="login-form-alert" class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
 
     <form id="login-form" action="/index.php/login" method="post" class="bg-light">
         <h1>Sign in to your account</h1>

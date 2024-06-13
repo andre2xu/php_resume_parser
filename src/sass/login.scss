@@ -8,7 +8,6 @@ body {
 #login-form-alert {
     position: absolute;
     top: 20px;
-    visibility: hidden;
 }
 
 @mixin loginFormContentSize($formWidth, $formMaxWidth, $formTopPadding, $formHorizontalPadding, $formBottomPadding, $headingFontSize, $headingBottomMargin, $inputFontSize, $linkFontSize, $buttonFontSize, $buttonTopMargin) {

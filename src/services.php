@@ -5,7 +5,10 @@
 
     function db() {
         try {
-            return new PDO('mysql:host=db;dbname=prp', 'prp', 'prp');
+            $pdo = new PDO('mysql:host=db;dbname=prp', 'prp', 'prp');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            return $pdo;
         }
         catch (\PDOException $error) {
             die('Failed to connect to MySQL: ' . $error);

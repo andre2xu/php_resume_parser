@@ -8,7 +8,6 @@ body {
 #signup-form-alert {
     position: absolute;
     top: 20px;
-    visibility: hidden;
 }
 
 @mixin signupFormContentSize($formWidth, $formMaxWidth, $formTopPadding, $formHorizontalPadding, $formBottomPadding, $headingFontSize, $headingBottomMargin, $inputFontSize, $linkFontSize, $buttonFontSize, $buttonTopMargin) {

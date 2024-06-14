@@ -31,6 +31,18 @@
 
                     if ($result['password'] == $user_password) {
                         $response = $this->generateRedirectResponse($request, 'dashboard');
+
+                        $auth_cookie = new HttpFoundation\Cookie(
+                            'authToken',
+                            hash('sha256', $user_email . $user_password),
+                            time() + 86400,
+                            '/',
+                            null,
+                            true, # secure
+                            true # HTTP only
+                        );
+
+                        $response->headers->setCookie($auth_cookie);
                     }
                 }
             }
@@ -64,6 +76,21 @@
                     $sql_statement->execute([$user_email, $user_password]);
 
                     $db->commit();
+
+                    // change response
+                    $response = $this->generateRedirectResponse($request, 'dashboard');
+
+                    $auth_cookie = new HttpFoundation\Cookie(
+                        'authToken',
+                        hash('sha256', $user_email . $user_password),
+                        time() + 86400,
+                        '/',
+                        null,
+                        true, # secure
+                        true # HTTP only
+                    );
+
+                    $response->headers->setCookie($auth_cookie);
                 }
                 else {
                     $response = $this->generateTemplateResponse('signup.html', array(

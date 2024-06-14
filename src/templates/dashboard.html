@@ -7,6 +7,9 @@
     <title>Dashboard</title>
 </head>
 <body>
-    Dashboard
+    <form action="/index.php/dashboard" method="post">
+        <input type="text" name="command" value="logout" hidden>
+        <button type="submit">Log out</button>
+    </form>
 </body>
 </html>

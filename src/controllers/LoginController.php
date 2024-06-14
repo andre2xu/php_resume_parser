@@ -7,8 +7,35 @@
 
 
     class LoginController extends BaseController {
-        public function login(): HttpFoundation\Response {
-            return $this->generateTemplateResponse('login.html');
+        public function login(HttpFoundation\Request $request): HttpFoundation\Response {
+            $response = $this->generateTemplateResponse('login.html');
+
+            if ($request->isMethod('POST')) {
+                $user_email = $request->request->get('email');
+                $user_password = $request->request->get('password');
+
+                // change default response
+                $response = $this->generateTemplateResponse('login.html', array('message' => 'Invalid credentials'));
+
+                // check if an account with the given email exists
+                $db = Services\db();
+
+                $sql_statement = $db->prepare('SELECT * FROM users WHERE email = ? LIMIT 1');
+                $sql_statement->execute([$user_email]);
+
+                $result = $sql_statement->fetch();
+
+                if ($result) {
+                    // account exists so check if the given password is correct
+                    $user_password = hash('sha256', $user_password);
+
+                    if ($result['password'] == $user_password) {
+                        $response = $this->generateRedirectResponse($request, 'dashboard');
+                    }
+                }
+            }
+
+            return $response;
         }
 
         public function signup(HttpFoundation\Request $request): HttpFoundation\Response {

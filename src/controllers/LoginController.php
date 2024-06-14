@@ -18,7 +18,7 @@
                 $user_email = $request->request->get('email');
                 $user_password = $request->request->get('password');
 
-                // check if an account with the given username already exists
+                // check if an account with the given email already exists
                 $db = Services\db();
 
                 $sql_statement = $db->prepare('SELECT * FROM users WHERE email = ? LIMIT 1');

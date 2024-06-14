@@ -21,5 +21,9 @@
         '_controller' => 'Controllers\LoginController::signup'
     )));
 
+    $routes->add('dashboard', new Routing\Route('/dashboard', array(
+        '_controller' => 'Controllers\DashboardController::dashboard'
+    )));
+
     return $routes;
 ?>

@@ -34,7 +34,7 @@
 
                         $auth_cookie = new HttpFoundation\Cookie(
                             'authToken',
-                            hash('sha256', $user_email . $user_password),
+                            $user_email,
                             time() + 86400,
                             '/',
                             null,
@@ -82,7 +82,7 @@
 
                     $auth_cookie = new HttpFoundation\Cookie(
                         'authToken',
-                        hash('sha256', $user_email . $user_password),
+                        $user_email,
                         time() + 86400,
                         '/',
                         null,

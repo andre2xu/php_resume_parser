@@ -21,7 +21,7 @@
                         $response->headers->clearCookie('authToken');
                         $response->sendHeaders();
 
-                        $response = $this->generateRedirectResponse($request, 'login');
+                        return $this->generateRedirectResponse($request, 'login');
                     }
                 }
 

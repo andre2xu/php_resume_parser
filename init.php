@@ -11,6 +11,13 @@
                 password varchar(64) NOT NULL,
                 PRIMARY KEY (id)
             );
+
+            DROP TABLE IF EXISTS pdfs;
+            CREATE TABLE pdfs (
+                user_id int NOT NULL,
+                filename varchar(64) NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
         ');
     }
     catch (\PDOException $error) {

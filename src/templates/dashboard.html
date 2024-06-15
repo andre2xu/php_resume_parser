@@ -11,5 +11,11 @@
         <input type="text" name="command" value="logout" hidden>
         <button type="submit">Log out</button>
     </form>
+
+    <form action="/index.php/dashboard" method="post" enctype="multipart/form-data" style="margin-top: 40px;">
+        <input type="file" name="resume-upload[]" id="resume-upload" accept=".doc, .docx, .pdf" multiple>
+
+        <button>Upload</button>
+    </form>
 </body>
 </html>

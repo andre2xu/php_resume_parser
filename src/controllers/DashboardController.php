@@ -25,6 +25,8 @@
                     }
                 }
 
+                $user_email = $request->cookies->get('authToken');
+
                 if ($request->isMethod('POST')) {
                     $resumes = $request->files->get('resume-upload');
 
@@ -55,10 +57,10 @@
                         $file_name = $file_names[$i];
                         $extension = pathinfo($file_name)['extension'];
 
-                        $pdf_name = $file_name;
+                        $pdf_name = hash('sha1', $user_email . $file_name . time()) . '.pdf';
 
                         if ($extension == 'pdf') {
-                            move_uploaded_file($file_paths[$i], $PDF_FOLDER_PATH . $file_name);
+                            move_uploaded_file($file_paths[$i], $PDF_FOLDER_PATH . $pdf_name);
                         }
                         else {
                             // save the non-PDF file temporarily to the server's temp directory

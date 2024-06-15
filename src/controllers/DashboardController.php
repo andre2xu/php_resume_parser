@@ -22,6 +22,25 @@
                     }
                 }
 
+                if ($request->isMethod('POST')) {
+                    $resumes = $request->files->get('resume-upload');
+
+                    $valid_extensions = ['doc', 'docx', 'pdf'];
+
+                    foreach ($resumes as $resume) {
+                        $extension = $resume->getClientOriginalExtension();
+
+                        if (in_array($extension, $valid_extensions) == false) {
+                            return $this->generateTemplateResponse('dashboard.html', array(
+                                'status' => 'failed',
+                                'message' => 'Only MS Word documents and PDFs are allowed'
+                            ));
+                        }
+
+                        $file_path = $resume->getClientOriginalPath();
+                    }
+                }
+
                 return $response;
             }
             else {

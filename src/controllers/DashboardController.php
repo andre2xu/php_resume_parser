@@ -25,62 +25,76 @@
                     }
                 }
 
-                $user_email = $request->cookies->get('authToken');
-
                 if ($request->isMethod('POST')) {
-                    $resumes = $request->files->get('resume-upload');
+                    $user_email = $request->cookies->get('authToken');
+                    $db = Services\db();
 
-                    // validate file format of resume(s)
-                    $valid_extensions = ['doc', 'docx', 'pdf'];
+                    // get user account data
+                    $sql_statement = $db->prepare('SELECT * FROM users WHERE email = "' . $user_email . '" LIMIT 1');
+                    $sql_statement->execute();
 
-                    foreach ($resumes as $resume) {
-                        $extension = $resume->getClientOriginalExtension();
+                    $user_account_data = $sql_statement->fetch();
 
-                        if (in_array($extension, $valid_extensions) == false) {
-                            return $this->generateTemplateResponse('dashboard.html', array(
-                                'status' => 'failed',
-                                'message' => 'Only MS Word documents and PDFs are allowed'
-                            ));
-                        }
-                    }
+                    if ($user_account_data) {
+                        // validate file format of resume(s)
+                        $resumes = $request->files->get('resume-upload');
+                        $valid_extensions = ['doc', 'docx', 'pdf'];
 
-                    // convert resume(s) to PDF (if not already) and save to the server's static folder
-                    $PDF_FOLDER_PATH = __DIR__ . '/../../static/pdfs/';
+                        foreach ($resumes as $resume) {
+                            $extension = $resume->getClientOriginalExtension();
 
-                    $file_data = $_FILES['resume-upload'];
-                    $file_names = $file_data['name'];
-                    $file_paths = $file_data['tmp_name'];
-
-                    $num_of_resumes = count($file_names);
-
-                    for ($i = 0; $i < $num_of_resumes; $i++) {
-                        $file_name = $file_names[$i];
-                        $extension = pathinfo($file_name)['extension'];
-
-                        $pdf_name = hash('sha1', $user_email . $file_name . time()) . '.pdf';
-
-                        if ($extension == 'pdf') {
-                            move_uploaded_file($file_paths[$i], $PDF_FOLDER_PATH . $pdf_name);
-                        }
-                        else {
-                            // save the non-PDF file temporarily to the server's temp directory
-                            $new_file_path = sys_get_temp_dir() . '/' . $file_name;
-
-                            move_uploaded_file($file_paths[$i], $new_file_path);
-
-                            // upload the non-PDF file to Gotenberg's LibreOffice API for conversion to PDF
-                            $pdf_conversion_request = Gotenberg::libreOffice('http://gotenberg:3000')->convert(Stream::path($new_file_path));
-
-                            try {
-                                // save to the server's static folder
-                                $pdf_name = Gotenberg::save($pdf_conversion_request, $PDF_FOLDER_PATH);
-                            }
-                            catch (GotenbergApiErroed $error) {
-                                var_dump($error);
+                            if (in_array($extension, $valid_extensions) == false) {
+                                return $this->generateTemplateResponse('dashboard.html', array(
+                                    'status' => 'failed',
+                                    'message' => 'Only MS Word documents and PDFs are allowed'
+                                ));
                             }
                         }
 
-                        var_dump($pdf_name);
+                        // convert resume(s) to PDF (if not already) and save to the server's static folder
+                        $PDF_FOLDER_PATH = __DIR__ . '/../../static/pdfs/';
+
+                        $file_data = $_FILES['resume-upload'];
+                        $file_names = $file_data['name'];
+                        $file_paths = $file_data['tmp_name'];
+
+                        $num_of_resumes = count($file_names);
+
+                        for ($i = 0; $i < $num_of_resumes; $i++) {
+                            $file_name = $file_names[$i];
+                            $extension = pathinfo($file_name)['extension'];
+
+                            $pdf_name = hash('sha1', $user_email . $file_name . time()) . '.pdf';
+
+                            if ($extension == 'pdf') {
+                                move_uploaded_file($file_paths[$i], $PDF_FOLDER_PATH . $pdf_name);
+                            }
+                            else {
+                                // save the non-PDF file temporarily to the server's temp directory
+                                $new_file_path = sys_get_temp_dir() . '/' . $file_name;
+
+                                move_uploaded_file($file_paths[$i], $new_file_path);
+
+                                // upload the non-PDF file to Gotenberg's LibreOffice API for conversion to PDF
+                                $pdf_conversion_request = Gotenberg::libreOffice('http://gotenberg:3000')->convert(Stream::path($new_file_path));
+
+                                try {
+                                    // save to the server's static folder
+                                    $pdf_name = Gotenberg::save($pdf_conversion_request, $PDF_FOLDER_PATH);
+                                }
+                                catch (GotenbergApiErroed $error) {
+                                    var_dump($error);
+                                }
+                            }
+
+                            // map the PDF to the user's account
+                            $db->beginTransaction();
+
+                            $sql_statement = $db->prepare('INSERT INTO pdfs (user_id, filename) VALUES (?, ?)');
+                            $sql_statement->execute([$user_account_data['id'], $pdf_name]);
+
+                            $db->commit();
+                        }
                     }
                 }
 

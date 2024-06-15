@@ -4,6 +4,7 @@
         "smalot/pdfparser": "2.10.0",
         "symfony/http-foundation": "7.1.1",
         "symfony/http-kernel": "7.1.1",
+        "symfony/http-client": "7.1.1",
         "symfony/filesystem": "7.1.1",
         "symfony/routing": "7.1.1",
         "twig/twig": "3.10.3"

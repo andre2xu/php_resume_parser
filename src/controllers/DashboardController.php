@@ -25,16 +25,16 @@
                     }
                 }
 
+                $user_email = $request->cookies->get('authToken');
+                $db = Services\db();
+
+                // get user account data
+                $sql_statement = $db->prepare('SELECT * FROM users WHERE email = "' . $user_email . '" LIMIT 1');
+                $sql_statement->execute();
+
+                $user_account_data = $sql_statement->fetch();
+
                 if ($request->isMethod('POST')) {
-                    $user_email = $request->cookies->get('authToken');
-                    $db = Services\db();
-
-                    // get user account data
-                    $sql_statement = $db->prepare('SELECT * FROM users WHERE email = "' . $user_email . '" LIMIT 1');
-                    $sql_statement->execute();
-
-                    $user_account_data = $sql_statement->fetch();
-
                     if ($user_account_data) {
                         // validate file format of resume(s)
                         $resumes = $request->files->get('resume-upload');
@@ -97,6 +97,20 @@
                         }
                     }
                 }
+
+                // pass the user's updated list of uploaded resumes to their dashboard
+                $sql_statement = $db->prepare('SELECT * FROM pdfs WHERE user_id=?');
+                $sql_statement->execute([$user_account_data['id']]);
+
+                $result = $sql_statement->fetchAll();
+
+                $uploaded_resumes = [];
+
+                foreach ($result as $row) {
+                    array_push($uploaded_resumes, $row['alias']);
+                }
+
+                $response = $this->generateTemplateResponse('dashboard.html', array('uploaded_resumes' => $uploaded_resumes));
 
                 return $response;
             }

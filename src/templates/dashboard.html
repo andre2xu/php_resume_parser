@@ -29,6 +29,11 @@
     <div>
         <span>My Resumes</span>
 
+        <form action="/index.php/dashboard" method="post">
+            <input type="text" name="command" value="deleteAllResumes" hidden>
+            <button type="submit">Clear</button>
+        </form>
+
         {% if uploaded_resumes %}
             <ul>
                 {% for filename in uploaded_resumes %}

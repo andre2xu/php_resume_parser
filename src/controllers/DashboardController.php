@@ -4,7 +4,7 @@
     use Symfony\Component\HttpFoundation;
     use Gotenberg\Gotenberg;
     use Gotenberg\Stream;
-    use Gotenberg\Exceptions\GotenbergApiErroed;
+    use Gotenberg\Exceptions\GotenbergApiErrored;
     use Services;
 
 
@@ -99,7 +99,7 @@
                                     // save to the server's static folder
                                     $pdf_name = Gotenberg::save($pdf_conversion_request, $this->PDF_FOLDER_PATH);
                                 }
-                                catch (GotenbergApiErroed $error) {
+                                catch (GotenbergApiErrored $error) {
                                     var_dump($error);
                                 }
                             }

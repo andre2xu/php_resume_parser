@@ -137,5 +137,11 @@
                 return $this->generateRedirectResponse($request, 'login');
             }
         }
+
+        public function filter(HttpFoundation\Request $request): HttpFoundation\Response {
+            $response = new HttpFoundation\JsonResponse($request->toArray());
+
+            return $response;
+        }
     }
 ?>

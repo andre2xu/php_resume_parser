@@ -25,5 +25,9 @@
         '_controller' => 'Controllers\DashboardController::dashboard'
     )));
 
+    $routes->add('filter', new Routing\Route('/filter', array(
+        '_controller' => 'Controllers\DashboardController::filter'
+    )));
+
     return $routes;
 ?>

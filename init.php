@@ -17,6 +17,7 @@
             CREATE TABLE pdfs (
                 user_id int NOT NULL,
                 filename varchar(44) NOT NULL,
+                alias varchar(255) NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(id)
             );
 

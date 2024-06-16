@@ -90,8 +90,8 @@
                             // map the PDF to the user's account
                             $db->beginTransaction();
 
-                            $sql_statement = $db->prepare('INSERT INTO pdfs (user_id, filename) VALUES (?, ?)');
-                            $sql_statement->execute([$user_account_data['id'], $pdf_name]);
+                            $sql_statement = $db->prepare('INSERT INTO pdfs (user_id, filename, alias) VALUES (?, ?, ?)');
+                            $sql_statement->execute([$user_account_data['id'], $pdf_name, $file_name]);
 
                             $db->commit();
                         }

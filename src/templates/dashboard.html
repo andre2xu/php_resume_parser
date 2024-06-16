@@ -44,5 +44,33 @@
             <p>n/a</p>
         {% endif %}
     </div>
+
+    <div style="margin-top: 80px;">
+        <span>Resume Finder</span>
+
+        <form id="resume-finder" action="/index.php/filter" method="post" style="display: flex; flex-direction: column; width: 80%; max-width: 400px; margin-top: 10px;">
+            <button type="submit">Find</button>
+        </form>
+    </div>
+
+    <script>
+        const KEYWORDS = [];
+
+        const FINDER = document.getElementById('resume-finder');
+
+        FINDER.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const REQUEST = new XMLHttpRequest();
+
+            REQUEST.onload = function () {
+                console.log(JSON.parse(this.responseText));
+            };
+
+            REQUEST.open('POST', FINDER.action);
+            REQUEST.setRequestHeader('Content-Type', 'application/json;utf-8');
+            REQUEST.send(JSON.stringify({keywords: KEYWORDS}));
+        });
+    </script>
 </body>
 </html>

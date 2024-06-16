@@ -137,7 +137,32 @@
         }
 
         public function filter(HttpFoundation\Request $request): HttpFoundation\Response {
-            $response = new HttpFoundation\JsonResponse($request->toArray());
+            $response = new HttpFoundation\JsonResponse(array());
+
+            if ($request->cookies->has('authToken')) {
+                $keywords = $request->toArray()['keywords'];
+
+                $db = Services\db();
+                $user_email = $request->cookies->get('authToken');
+
+                // get paths to user's PDFs
+                $pdf_paths = [];
+
+                $sql_statement = $db->prepare('SELECT filename FROM pdfs INNER JOIN users ON pdfs.user_id=users.id WHERE users.email=?');
+                $sql_statement->execute([$user_email]);
+
+                $result = $sql_statement->fetchAll();
+
+                if ($result) {
+                    foreach ($result as $row) {
+                        $pdf_path = $this->PDF_FOLDER_PATH . $row['filename'];
+
+                        array_push($pdf_paths, $pdf_path);
+                    }
+                }
+
+                // $response = new HttpFoundation\JsonResponse(array('debug' => $pdf_paths));
+            }
 
             return $response;
         }

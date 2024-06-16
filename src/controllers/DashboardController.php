@@ -26,8 +26,9 @@
                 $user_account_data = $sql_statement->fetch();
 
                 if ($request->isMethod('POST')) {
-                    // process commands
                     if ($request->request->has('command')) {
+                        // process commands
+
                         $command = $request->request->get('command');
 
                         if ($command == 'logout') {

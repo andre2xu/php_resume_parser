@@ -93,7 +93,7 @@
                                 move_uploaded_file($file_paths[$i], $new_file_path);
 
                                 // upload the non-PDF file to Gotenberg's LibreOffice API for conversion to PDF
-                                $pdf_conversion_request = Gotenberg::libreOffice('http://gotenberg:3000')->convert(Stream::path($new_file_path));
+                                $pdf_conversion_request = Gotenberg::libreOffice('http://gotenberg:3000')->exportFormFields(false)->convert(Stream::path($new_file_path));
 
                                 try {
                                     // save to the server's static folder

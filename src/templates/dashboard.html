@@ -20,10 +20,24 @@
         <button type="submit">Log out</button>
     </form>
 
-    <form action="/index.php/dashboard" method="post" enctype="multipart/form-data" style="margin-top: 40px;">
+    <form action="/index.php/dashboard" method="post" enctype="multipart/form-data" style="margin: 40px 0px;">
         <input type="file" name="resume-upload[]" id="resume-upload" accept=".doc, .docx, .pdf" multiple>
 
         <button>Upload</button>
     </form>
+
+    <div>
+        <span>My Resumes</span>
+
+        {% if uploaded_resumes %}
+            <ul>
+                {% for filename in uploaded_resumes %}
+                    <li>{{ filename }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>n/a</p>
+        {% endif %}
+    </div>
 </body>
 </html>

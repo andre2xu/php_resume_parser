@@ -14,17 +14,6 @@
             $response = $this->generateTemplateResponse('dashboard.html');
 
             if ($request->cookies->has('authToken')) {
-                if ($request->request->has('command')) {
-                    $command = $request->request->get('command');
-
-                    if ($command == 'logout') {
-                        $response->headers->clearCookie('authToken');
-                        $response->sendHeaders();
-
-                        return $this->generateRedirectResponse($request, 'login');
-                    }
-                }
-
                 $user_email = $request->cookies->get('authToken');
                 $db = Services\db();
 
@@ -35,6 +24,18 @@
                 $user_account_data = $sql_statement->fetch();
 
                 if ($request->isMethod('POST')) {
+                    // process commands
+                    if ($request->request->has('command')) {
+                        $command = $request->request->get('command');
+
+                        if ($command == 'logout') {
+                            $response->headers->clearCookie('authToken');
+                            $response->sendHeaders();
+
+                            return $this->generateRedirectResponse($request, 'login');
+                        }
+                    }
+
                     if ($user_account_data) {
                         // validate file format of resume(s)
                         $resumes = $request->files->get('resume-upload');

@@ -14,8 +14,6 @@
             $response = $this->generateTemplateResponse('dashboard.html');
 
             if ($request->cookies->has('authToken')) {
-                $PDF_FOLDER_PATH = __DIR__ . '/../../static/pdfs/';
-
                 $user_email = $request->cookies->get('authToken');
                 $db = Services\db();
 
@@ -45,7 +43,7 @@
 
                             if ($result) {
                                 foreach ($result as $pdf_entry) {
-                                    $resume_path = $PDF_FOLDER_PATH . $pdf_entry['filename'];
+                                    $resume_path = $this->PDF_FOLDER_PATH . $pdf_entry['filename'];
 
                                     if (file_exists($resume_path)) {
                                         unlink($resume_path);
@@ -86,7 +84,7 @@
                             $pdf_name = hash('sha1', $user_email . $file_name . time()) . '.pdf';
 
                             if ($extension == 'pdf') {
-                                move_uploaded_file($file_paths[$i], $PDF_FOLDER_PATH . $pdf_name);
+                                move_uploaded_file($file_paths[$i], $this->PDF_FOLDER_PATH . $pdf_name);
                             }
                             else {
                                 // save the non-PDF file temporarily to the server's temp directory
@@ -99,7 +97,7 @@
 
                                 try {
                                     // save to the server's static folder
-                                    $pdf_name = Gotenberg::save($pdf_conversion_request, $PDF_FOLDER_PATH);
+                                    $pdf_name = Gotenberg::save($pdf_conversion_request, $this->PDF_FOLDER_PATH);
                                 }
                                 catch (GotenbergApiErroed $error) {
                                     var_dump($error);

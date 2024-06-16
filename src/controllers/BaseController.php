@@ -12,6 +12,7 @@
     class BaseController {
         protected $templates_loader;
         protected $twig; 
+        protected $PDF_FOLDER_PATH = __DIR__ . '/../../static/pdfs/';
 
         public function __construct() {
             $this->templates_loader = new Twig\Loader\FilesystemLoader('src/templates');

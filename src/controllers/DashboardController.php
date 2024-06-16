@@ -14,6 +14,8 @@
             $response = $this->generateTemplateResponse('dashboard.html');
 
             if ($request->cookies->has('authToken')) {
+                $PDF_FOLDER_PATH = __DIR__ . '/../../static/pdfs/';
+
                 $user_email = $request->cookies->get('authToken');
                 $db = Services\db();
 
@@ -34,9 +36,26 @@
 
                             return $this->generateRedirectResponse($request, 'login');
                         }
-                    }
+                        else if ($command == 'deleteAllResumes') {
+                            $sql_statement = $db->prepare('SELECT filename from pdfs WHERE user_id=?');
+                            $sql_statement->execute([$user_account_data['id']]);
 
-                    if ($user_account_data) {
+                            $result = $sql_statement->fetchAll();
+
+                            if ($result) {
+                                foreach ($result as $pdf_entry) {
+                                    $resume_path = $PDF_FOLDER_PATH . $pdf_entry['filename'];
+
+                                    if (file_exists($resume_path)) {
+                                        unlink($resume_path);
+                                    }
+                                }
+
+                                $db->exec('DELETE FROM pdfs');
+                            }
+                        }
+                    }
+                    else if ($user_account_data) {
                         // validate file format of resume(s)
                         $resumes = $request->files->get('resume-upload');
                         $valid_extensions = ['doc', 'docx', 'pdf'];
@@ -53,8 +72,6 @@
                         }
 
                         // convert resume(s) to PDF (if not already) and save to the server's static folder
-                        $PDF_FOLDER_PATH = __DIR__ . '/../../static/pdfs/';
-
                         $file_data = $_FILES['resume-upload'];
                         $file_names = $file_data['name'];
                         $file_paths = $file_data['tmp_name'];

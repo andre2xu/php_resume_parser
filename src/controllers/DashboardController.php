@@ -161,7 +161,20 @@
                     }
                 }
 
-                // $response = new HttpFoundation\JsonResponse(array('debug' => $pdf_paths));
+                // get the contents of a user's PDFs
+                if (count($pdf_paths) > 0) {
+                    $contents = [];
+
+                    $pdf_parser = new \Smalot\PdfParser\Parser();
+
+                    foreach ($pdf_paths as $path) {
+                        $pdf = $pdf_parser->parseFile($path);
+
+                        array_push($contents, $pdf->getText());
+                    }
+
+                    $response = new HttpFoundation\JsonResponse(array('debug' => $contents));
+                }
             }
 
             return $response;

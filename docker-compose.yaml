@@ -27,3 +27,10 @@ services:
       MYSQL_USER: prp
       MYSQL_PASSWORD: prp
       MYSQL_ROOT_PASSWORD: root
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db # enter this for 'server' in the login page
+      - PMA_PORT=3306

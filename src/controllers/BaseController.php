@@ -33,5 +33,9 @@
 
             return new HttpFoundation\RedirectResponse($url_generator->generate($routeName, $context), $statusCode);
         }
+
+        protected function generateJSONResponse(array $json = array()) {
+            return new HttpFoundation\JsonResponse($json);
+        }
     }
 ?>

@@ -9,23 +9,30 @@
     <title>Dashboard</title>
 </head>
 <body>
+    <!-- ALERTS -->
     {% if status == "failed" and message  %}
         <div id="dashboard-alert" class="alert alert-danger" role="alert">{{ message }}</div>
     {% elseif status == "success" and message %}
         <div id="dashboard-alert" class="alert alert-success" role="alert">{{ message }}</div>
     {% endif %}
 
+
+    <!-- LOGOUT BUTTON -->
     <form action="/index.php/dashboard" method="post">
         <input type="text" name="command" value="logout" hidden>
         <button type="submit">Log out</button>
     </form>
 
+
+    <!-- RESUME UPLOAD -->
     <form action="/index.php/dashboard" method="post" enctype="multipart/form-data" style="margin: 40px 0px;">
         <input type="file" name="resume-upload[]" id="resume-upload" accept=".doc, .docx, .pdf" multiple>
 
         <button>Upload</button>
     </form>
 
+
+    <!-- RESUME MANAGER -->
     <div>
         <span>My Resumes</span>
 
@@ -45,6 +52,8 @@
         {% endif %}
     </div>
 
+
+    <!-- RESUME FINDER -->
     <div style="margin-top: 80px;">
         <span>Resume Finder</span>
 
@@ -68,6 +77,8 @@
         </div>
     </div>
 
+
+    <!-- CLIENT SIDE LOGIC -->
     <script>
         const KEYWORDS = [];
 

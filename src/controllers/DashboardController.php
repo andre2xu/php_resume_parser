@@ -136,7 +136,7 @@
             }
         }
 
-        public function filter(HttpFoundation\Request $request): HttpFoundation\Response {
+        public function filter(HttpFoundation\Request $request): HttpFoundation\JsonResponse {
             $response = new HttpFoundation\JsonResponse(array());
 
             if ($request->cookies->has('authToken')) {

@@ -9,6 +9,13 @@
 
 
 
+    // create any missing directories
+    $pdf_folder = __DIR__ . '/static/pdfs';
+
+    if (is_dir($pdf_folder) == false) {
+        mkdir($pdf_folder, 0777, true);
+    }
+
     // handle routing
     $routes = include __DIR__ . '/src/routes.php';
 

@@ -72,7 +72,44 @@
         const KEYWORDS = [];
 
         const FINDER = document.getElementById('resume-finder');
+        const KEYWORD_LIST = document.getElementById('keyword-list');
+        const KEYWORD_ADDER = document.getElementById('keyword-adder');
+        const KEYWORD_INPUT = document.getElementById('keyword-input');
         const FINDER_MATCHES = document.getElementById('resume-finder-matches');
+
+        KEYWORD_LIST.addEventListener('click', function (event) {
+            const ELEMENT_CLICKED = event.target;
+
+            if (ELEMENT_CLICKED.hasAttribute('data-command')) {
+                if (ELEMENT_CLICKED.getAttribute('data-command') === 'delete-keyword') {
+                    // delete keyword from array
+                    KEYWORDS.splice(KEYWORDS.indexOf(ELEMENT_CLICKED.parentElement.firstChild.nodeValue.trim()), 1);
+
+                    // delete keyword from list
+                    KEYWORD_LIST.removeChild(ELEMENT_CLICKED.parentElement);
+                }
+            }
+        });
+
+        KEYWORD_ADDER.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            if (KEYWORD_INPUT.value.length > 0) {
+                const KEYWORD = KEYWORD_INPUT.value;
+
+                // add keyword to array
+                KEYWORDS.push(KEYWORD);
+
+                // clear keyword input field
+                KEYWORD_INPUT.value = '';
+
+                // add keyword to list
+                const LIST_ITEM = document.createElement('li');
+                LIST_ITEM.innerHTML = `${KEYWORD} <span data-command="delete-keyword" style="color: red;">[x]</span>`;
+
+                KEYWORD_LIST.appendChild(LIST_ITEM);
+            }
+        });
 
         FINDER.addEventListener('submit', function (event) {
             event.preventDefault();

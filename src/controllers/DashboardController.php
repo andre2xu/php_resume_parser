@@ -146,34 +146,56 @@
                 $user_email = $request->cookies->get('authToken');
 
                 // get paths to user's PDFs
-                $pdf_paths = [];
+                $pdf_data = [];
 
-                $sql_statement = $db->prepare('SELECT filename FROM pdfs INNER JOIN users ON pdfs.user_id=users.id WHERE users.email=?');
+                $sql_statement = $db->prepare('SELECT filename, alias FROM pdfs INNER JOIN users ON pdfs.user_id=users.id WHERE users.email=?');
                 $sql_statement->execute([$user_email]);
 
                 $result = $sql_statement->fetchAll();
 
                 if ($result) {
                     foreach ($result as $row) {
-                        $pdf_path = $this->PDF_FOLDER_PATH . $row['filename'];
+                        $file_name = $row['filename'];
+                        $pdf_path = $this->PDF_FOLDER_PATH . $file_name;
 
-                        array_push($pdf_paths, $pdf_path);
+                        array_push($pdf_data, array(
+                            'filename' => $file_name,
+                            'alias' => $row['alias'],
+                            'filepath' => $pdf_path
+                        ));
                     }
                 }
 
                 // get the contents of a user's PDFs
-                if (count($pdf_paths) > 0) {
-                    $contents = [];
-
+                if (count($pdf_data) > 0) {
                     $pdf_parser = new \Smalot\PdfParser\Parser();
 
-                    foreach ($pdf_paths as $path) {
-                        $pdf = $pdf_parser->parseFile($path);
+                    $filter_results = [];
 
-                        array_push($contents, $pdf->getText());
+                    foreach ($pdf_data as $data) {
+                        $pdf = $pdf_parser->parseFile($data['filepath']);
+                        $pdf_content = $pdf->getText();
+
+                        $matches = [];
+
+                        // find keywords in resume
+                        foreach ($keywords as $keyword) {
+                            if (preg_match('/' . $keyword . '/i', $pdf_content)) {
+                                array_push($matches, $keyword);
+                            }
+                        }
+
+                        // keep track of resume if it has matches
+                        if (count($matches) > 0) {
+                            array_push($filter_results, array(
+                                'resume' => $data['alias'],
+                                'pdf' => $data['filename'],
+                                'matches' => $matches
+                            ));
+                        }
                     }
 
-                    $response = new HttpFoundation\JsonResponse(array('debug' => $contents));
+                    $response = $this->generateJSONResponse(array('filterResults' => $filter_results));
                 }
             }
 

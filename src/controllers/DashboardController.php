@@ -70,13 +70,22 @@
                             }
                         }
 
-                        // convert resume(s) to PDF (if not already) and save to the server's static folder
                         $file_data = $_FILES['resume-upload'];
                         $file_names = $file_data['name'];
                         $file_paths = $file_data['tmp_name'];
 
                         $num_of_resumes = count($file_names);
 
+                        for ($i = 0; $i < $num_of_resumes; $i++) {
+                            if (is_readable($file_paths[$i]) == false) {
+                                return $this->generateTemplateResponse('dashboard.html', array(
+                                    'status' => 'failed',
+                                    'message' => 'Upload cancelled. "' . $file_names[$i] . '" is not readable.'
+                                ));
+                            }
+                        }
+
+                        // convert resume(s) to PDF (if not already) and save to the server's static folder
                         for ($i = 0; $i < $num_of_resumes; $i++) {
                             $file_name = $file_names[$i];
                             $extension = pathinfo($file_name)['extension'];

@@ -128,29 +128,37 @@
             const REQUEST = new XMLHttpRequest();
 
             REQUEST.onload = function () {
-                const RESPONSE = JSON.parse(this.responseText);
-                const FILTER_RESULTS = RESPONSE.filterResults;
-                const NUM_OF_RESULTS = FILTER_RESULTS.length;
+                let response = '';
 
-                // reset resume finder matches list
-                FINDER_MATCHES.innerHTML = '';
+                try {
+                    response = JSON.parse(this.responseText);
 
-                // update resume finder matches list
-                if (NUM_OF_RESULTS > 0) {
-                    for (let i=0; i < NUM_OF_RESULTS; i++) {
-                        const RESULT = FILTER_RESULTS[i];
+                    if (this.status === 200 && 'filterResults' in response) {
+                        const FILTER_RESULTS = response.filterResults;
+                        const NUM_OF_RESULTS = FILTER_RESULTS.length;
 
-                        const LIST_ITEM = document.createElement('li');
-                        LIST_ITEM.setAttribute('data-pdf', RESULT.pdf);
+                        // reset resume finder matches list
+                        FINDER_MATCHES.innerHTML = '';
 
-                        LIST_ITEM.innerHTML = `${RESULT.resume} <b>[${RESULT.matches.length}/${KEYWORDS.length} keywords]</b>`;
+                        // update resume finder matches list
+                        if (NUM_OF_RESULTS > 0) {
+                            for (let i=0; i < NUM_OF_RESULTS; i++) {
+                                const RESULT = FILTER_RESULTS[i];
 
-                        FINDER_MATCHES.appendChild(LIST_ITEM);
+                                const LIST_ITEM = document.createElement('li');
+                                LIST_ITEM.setAttribute('data-pdf', RESULT.pdf);
+
+                                LIST_ITEM.innerHTML = `${RESULT.resume} <b>[${RESULT.matches.length}/${KEYWORDS.length} keywords]</b>`;
+
+                                FINDER_MATCHES.appendChild(LIST_ITEM);
+                            }
+                        }
+                        else {
+                            FINDER_MATCHES.innerHTML = '<li>None</li>';
+                        }
                     }
                 }
-                else {
-                    FINDER_MATCHES.innerHTML = '<li>None</li>';
-                }
+                catch {}
             };
 
             REQUEST.open('POST', FINDER.action);

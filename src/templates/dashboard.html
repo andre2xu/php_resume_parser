@@ -12,8 +12,6 @@
     <!-- ALERTS -->
     {% if status == "failed" and message  %}
         <div id="dashboard-alert" class="alert alert-danger" role="alert">{{ message }}</div>
-    {% elseif status == "success" and message %}
-        <div id="dashboard-alert" class="alert alert-success" role="alert">{{ message }}</div>
     {% endif %}
 
 

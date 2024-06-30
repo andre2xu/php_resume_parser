@@ -38,6 +38,13 @@ The installation should now be complete. You can visit the web app by searching 
 
 ## Premium Version
 The premium version is available for purchase on my website [INSERT LINK HERE]. The installation instructions are there as well.
+<br><br>
+
+## Troubleshooting
+- If you move the project folder to another location in your machine you might find that the server is no longer accessible. To fix this all you have to do is stop and delete the project's Docker container and run the Docker compose file again. Don't forget to run the init file afterwards as well!
+<br><br>
+
+- Every time you delete the project container and rebuild it, a new Docker volume is created. The old one will still exist which can take up precious space on your machine so be sure to delete it! This can be done easily in Docker Desktop's *volumes* tab.
 
 <br><br><br><br>
 

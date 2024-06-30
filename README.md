@@ -4,7 +4,7 @@
 It is a web app intended for small-to-medium sized businesses and for those seeking to learn advanced programming skills, i.e. it is a commercial product in the form of a codebase.
 <br><br>
 
-<u>The app requires Docker</u> to be installed and running on a host machine. It is recommended to get *Docker Desktop* as well to make usage easier.
+<ins>The app requires Docker</ins> to be installed and running on a host machine. It is recommended to get *Docker Desktop* as well to make usage easier.
 <br><br><br><br>
 
 ## FREE VERSION (this repo)

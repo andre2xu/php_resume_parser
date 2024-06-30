@@ -34,6 +34,10 @@ The final step is to run the project's *init.php* file to set up the MySQL datab
 <br>
 
 The installation should now be complete. You can visit the web app by searching `http://localhost:5001/index.php/login` on a browser.
+<br><br>
+
+## Premium Version
+The premium version is available for purchase on my website [INSERT LINK HERE]. The installation instructions are there as well.
 
 <br><br><br><br>
 

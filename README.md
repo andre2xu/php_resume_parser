@@ -22,7 +22,7 @@ git clone https://github.com/andre2xu/php_resume_parser.git
 ```
 <br>
 
-After the cloning/download is complete, run the project's Docker compose file. This will install all the packages required and create the web app (check in Docker Desktop).
+After the cloning/download is complete, run the project's Docker compose file. This will create all the containers required (verify in Docker Desktop or with the docker command that lists all containers).
 ```
 cd php_resume_parser
 
@@ -30,8 +30,12 @@ docker compose up -d
 ```
 <br>
 
-The final step is to run the project's *init.php* file to set up the MySQL database. This is done using *Docker exec*. Open up Docker Desktop and find the project's container called 'php_resume_parser' (make sure it is running). Then click on 'server-1' and go to the exec tab. You should see a terminal. Type `php init.php` and wait until you are able to type again.
-<br>
+The final step is to run the *init.php* file to set up the MySQL database and install all the packages needed. This is done using *Docker exec*:
+
+- Open up Docker Desktop and find the container for the server (i.e. the codebase) and make sure it's running. Click on it and go to the exec tab. You should see a terminal. Type `php init.php` and wait until you are able to type again.
+<br><br>
+- If you're using the CLI, run the following command `docker exec -it <server_container_name_or_id> php init.php`. Again, make sure the server container is running beforehand.
+<br><br>
 
 The installation should now be complete. You can visit the web app by searching `http://localhost:5001/index.php/login` on a browser.
 <br><br>
@@ -45,6 +49,10 @@ The premium version is available for purchase on my website [INSERT LINK HERE]. 
 <br><br>
 
 - Every time you delete the project container and rebuild it, a new Docker volume is created. The old one will still exist which can take up precious space on your machine so be sure to delete it! This can be done easily in Docker Desktop's *volumes* tab.
+<br><br>
+
+## Licensing
+The MIT license only applies to the free version. The premium version will have a different license.
 
 <br><br><br><br>
 

@@ -41,7 +41,7 @@ The installation should now be complete. You can visit the web app by searching 
 <br><br>
 
 ## Premium Version
-The premium version is available for purchase on my website [INSERT LINK HERE]. The installation instructions are there as well.
+The premium version is available for purchase in my [Patreon Shop](https://patreon.com/AndrewsPetProjects?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink)
 <br><br>
 
 ## Troubleshooting
